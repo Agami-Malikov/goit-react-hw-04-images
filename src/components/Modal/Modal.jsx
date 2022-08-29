@@ -33,3 +33,5 @@ Modal.defaultProps = {
 Modal.propTypes = {
   close: PropTypes.func,
 };
+
+
