@@ -1,55 +1,41 @@
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+import { useState } from 'react';
 import fields from './fields';
 import TextField from 'components/shared/TextField/TextField';
 
-class Searchbar extends Component {
-  static defaultProps = {
-    onSubmit: () => {},
+const Searchbar = ({ onSubmit }) => {
+  const [state, setState] = useState('');
+
+  const handleChange = event => {
+    setState(event.currentTarget.value);
   };
 
-  static propTypes = {
-    onSubmit: PropTypes.func,
-  };
-
-  state = {
-    value: '',
-  };
-
-  handleChange = ({ target }) => {
-    this.setState({
-      value: target.value,
-    });
-  };
-
-  handleSubmit = event => {
+  const handleSubmit = event => {
     event.preventDefault();
 
-    if (this.state.value === '') {
+    if (state.value === '') {
       alert('Введите новый запрос');
     }
-    this.props.onSubmit(this.state.value);
-    this.reset();
+    onSubmit(state);
+    setState('');
   };
 
-  reset() {
-    this.setState({ value: '' });
-  }
-
-  render() {
-    const { search } = this.state;
-
-    const { handleChange, handleSubmit } = this;
-
-    return (
-      <form className="searchForm" onSubmit={handleSubmit}>
-        <button type="submit" className="searchForm-button">
-          <span className="searchForm-button-label">Search</span>
-        </button>
-        <TextField value={search} onChange={handleChange} {...fields.search} />
-      </form>
-    );
-  }
-}
+  return (
+    <form className="searchForm" onSubmit={handleSubmit}>
+      <button type="submit" className="searchForm-button">
+        <span className="searchForm-button-label">Search</span>
+      </button>
+      <TextField value={state} onChange={handleChange} {...fields.search} />
+    </form>
+  );
+};
 
 export default Searchbar;
+
+Searchbar.defaultProps = {
+  onSubmit: () => {},
+};
+
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func,
+};
