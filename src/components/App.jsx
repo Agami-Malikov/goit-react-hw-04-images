@@ -13,6 +13,10 @@ const App = () => {
     error: null,
   });
 
+  // const [loading] = useState()
+  // вынести эррор
+  // вынести загрузку
+
   const [value, setValue] = useState('');
 
   const [modal, setModal] = useState({
@@ -57,10 +61,10 @@ const App = () => {
 
   const handleFormSubmit = value => {
     setValue(value);
-    setImages(prevImages => ({
-      ...prevImages,
+    setImages({
+      ...images,
       items: [],
-    }));
+    });
     setPage(1);
   };
 
